@@ -111,4 +111,16 @@ public class EmployeeServiceImpl implements EmployeeService {
         return new PageResult(total,records);
     }
 
+    /**
+     * 启用、禁用员工账号
+     * @param status
+     * @param id
+     */
+    public void StartOrStop(Integer status, Long id) {
+        Employee.EmployeeBuilder employee = Employee.builder()
+                .status(status)
+                .id(id);
+        employeeMapper.update(employee);
+    }
+
 }
