@@ -84,13 +84,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setPassword(DigestUtils.md5DigestAsHex(PasswordConstant.DEFAULT_PASSWORD.getBytes()));
 
         //新员工创造时间和更新时间
-        employee.setCreateTime(LocalDateTime.now());
-        employee.setUpdateTime(LocalDateTime.now());
+        /*employee.setCreateTime(LocalDateTime.now());
+        employee.setUpdateTime(LocalDateTime.now());*/
 
         //新员工的创造人和更新人的id
         // 从ThreadLocal里面取出员工ID，避免的每次点击，都会变成不同线程的ID
-        employee.setCreateUser(BaseContext.getCurrentId());
-        employee.setUpdateUser(BaseContext.getCurrentId());
+//        employee.setCreateUser(BaseContext.getCurrentId());
+//        employee.setUpdateUser(BaseContext.getCurrentId());
 
         //写进数据库
         employeeMapper.save(employee);
@@ -144,8 +144,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         //把employeeDTO拷贝给employee
         BeanUtils.copyProperties(employeeDTO,employee);
 
-        employee.setUpdateTime(LocalDateTime.now());
-        employee.setUpdateUser(BaseContext.getCurrentId());
+       /* employee.setUpdateTime(LocalDateTime.now());
+        employee.setUpdateUser(BaseContext.getCurrentId());*/
         employeeMapper.update(employee);
     }
 
@@ -159,8 +159,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         String oldPassword = DigestUtils.md5DigestAsHex(passwordEditDTO.getOldPassword().getBytes());
         if (employee.getPassword().equals(oldPassword)){
             employee.setPassword(DigestUtils.md5DigestAsHex(passwordEditDTO.getNewPassword().getBytes()));
-            employee.setUpdateTime(LocalDateTime.now());
-            employee.setUpdateUser(BaseContext.getCurrentId());
+            /*employee.setUpdateTime(LocalDateTime.now());
+            employee.setUpdateUser(BaseContext.getCurrentId());*/
             employeeMapper.update(employee);
         }else {
             throw new PasswordErrorException(MessageConstant.PASSWORD_EDIT_FAILED);
