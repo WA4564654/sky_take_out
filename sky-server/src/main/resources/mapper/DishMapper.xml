@@ -33,6 +33,22 @@
         order by d.create_time desc
     </select>
 
+    <select id="list" resultType="Dish" parameterType="Dish">
+        select * from dish
+        <where>
+            <if test="name != null">
+                and name like concat('%',#{name},'%')
+            </if>
+            <if test="categoryId != null">
+                and category_id = #{categoryId}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+
     <update id="update">
         update dish 
             <set>
@@ -47,4 +63,26 @@
             </set>
         where id = #{id}
     </update>
+
+    <!--    根据套餐id查询菜品-->
+    <select id="getBySetmealId" resultType="com.sky.entity.Dish">
+        select d.*
+        from dish d,
+             setmeal_dish sd
+        where d.id = sd.dish_id
+          and sd.setmeal_id = #{id}
+    </select>
+
+    <!--    根据条件统计菜品数量-->
+    <select id="countByMap" resultType="java.lang.Integer">
+        select count(id) from dish
+        <where>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="categoryId != null">
+                and category_id = #{categoryId}
+            </if>
+        </where>
+    </select>
 </mapper>
